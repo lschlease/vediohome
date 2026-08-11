@@ -40,12 +40,31 @@ export async function GET(
       return NextResponse.json({ error: 'Video not found' }, { status: 404 })
     }
 
-    // 生成 HLS 播放列表
-    // 假设每个分片是 10 秒
-    const SEGMENT_DURATION = 10
-    const numSegments = Math.ceil(video.duration / SEGMENT_DURATION)
+    // 从 Storage 中列出实际的分片文件
+    const videoDir = video.video_key.replace('/playlist.m3u8', '')
+    const { data: files, error: listError } = await supabase.storage
+      .from('videos')
+      .list(videoDir)
+
+    if (listError || !files) {
+      console.error('❌ Failed to list segments:', listError)
+      return NextResponse.json({ error: 'Failed to list segments' }, { status: 500 })
+    }
+
+    // 筛选出 .ts 文件并排序
+    const segmentFiles = files
+      .filter(file => file.name.endsWith('.ts'))
+      .sort((a, b) => a.name.localeCompare(b.name))
+
+    const numSegments = segmentFiles.length
+
+    if (numSegments === 0) {
+      console.error('❌ No segments found for video:', id)
+      return NextResponse.json({ error: 'No segments found' }, { status: 404 })
+    }
 
     // 生成 M3U8 播放列表
+    const SEGMENT_DURATION = 10
     let playlist = '#EXTM3U\n'
     playlist += '#EXT-X-VERSION:3\n'
     playlist += `#EXT-X-TARGETDURATION:${SEGMENT_DURATION}\n`
@@ -61,7 +80,7 @@ export async function GET(
 
     playlist += '#EXT-X-ENDLIST\n'
 
-    console.log(`📋 Generated HLS playlist for video ${id}: ${numSegments} segments`)
+    console.log(`📋 Generated HLS playlist for video ${id}: ${numSegments} segments (from storage)`)
 
     return new NextResponse(playlist, {
       status: 200,
