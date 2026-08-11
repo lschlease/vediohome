@@ -1,0 +1,52 @@
+{
+  "sample_videos": [
+    {
+      "title": "Getting Started with Next.js",
+      "description": "Learn the basics of Next.js and build your first application. This comprehensive tutorial covers routing, data fetching, and deployment.",
+      "thumbnail_url": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=450&fit=crop",
+      "video_key": "videos/sample-1.mp4",
+      "duration": 1245,
+      "views": 15420
+    },
+    {
+      "title": "Building with Supabase",
+      "description": "Discover how to integrate Supabase into your projects. We'll cover authentication, database operations, and real-time subscriptions.",
+      "thumbnail_url": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&h=450&fit=crop",
+      "video_key": "videos/sample-2.mp4",
+      "duration": 982,
+      "views": 8930
+    },
+    {
+      "title": "Cloudflare R2 Storage Guide",
+      "description": "Master cloud storage with Cloudflare R2. Learn about file uploads, signed URLs, and optimizing video delivery at scale.",
+      "thumbnail_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=450&fit=crop",
+      "video_key": "videos/sample-3.mp4",
+      "duration": 1567,
+      "views": 21340
+    },
+    {
+      "title": "TypeScript Best Practices",
+      "description": "Enhance your TypeScript skills with proven patterns and practices for building robust applications.",
+      "thumbnail_url": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=450&fit=crop",
+      "video_key": "videos/sample-4.mp4",
+      "duration": 892,
+      "views": 12450
+    },
+    {
+      "title": "React Performance Optimization",
+      "description": "Deep dive into React performance optimization techniques including memoization, lazy loading, and code splitting.",
+      "thumbnail_url": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=450&fit=crop",
+      "video_key": "videos/sample-5.mp4",
+      "duration": 1123,
+      "views": 18920
+    },
+    {
+      "title": "Tailwind CSS Mastery",
+      "description": "Build beautiful, responsive UIs quickly with Tailwind CSS. Learn advanced techniques and custom configurations.",
+      "thumbnail_url": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&h=450&fit=crop",
+      "video_key": "videos/sample-6.mp4",
+      "duration": 756,
+      "views": 9340
+    }
+  ]
+}
