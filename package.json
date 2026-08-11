@@ -12,7 +12,8 @@
     "lint": "eslint",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next out",
-    "setup": "npm install && echo 'Please configure .env.local with your credentials'"
+    "setup": "npm install && echo 'Please configure .env.local with your credentials'",
+    "verify": "tsx scripts/verify-supabase.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1107.0",
@@ -28,9 +29,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }
