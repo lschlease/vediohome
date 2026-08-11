@@ -4,7 +4,9 @@
       "Bash(npm run *)",
       "Bash(npx tsx *)",
       "Bash(curl -s http://localhost:3000/api/videos)",
-      "Bash(curl -s http://localhost:3000/api/videos/a08475f5-6f7a-411a-8c4c-907c262c7df9)"
+      "Bash(curl -s http://localhost:3000/api/videos/a08475f5-6f7a-411a-8c4c-907c262c7df9)",
+      "Bash(npm install *)",
+      "Bash(wc -l C:\\\\\\\\Users\\\\\\\\Dust\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\claude\\\\\\\\c--Users-Dust-Documents-GitHub-vediohome\\\\\\\\e3d3f813-3615-41e3-a12d-8400a541869e\\\\\\\\tasks\\\\\\\\bxnfg4sgh.output)"
     ]
   }
 }

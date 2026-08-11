@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize } from 'lucide-react'
+import Hls from 'hls.js'
 
 type VideoPlayerProps = {
   src: string
@@ -11,6 +12,7 @@ type VideoPlayerProps = {
 export default function VideoPlayer({ src, poster }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const hlsRef = useRef<Hls | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -22,6 +24,64 @@ export default function VideoPlayer({ src, poster }: VideoPlayerProps) {
     const video = videoRef.current
     if (!video) return
 
+    // Check if the source is an HLS stream (either .m3u8 file or our HLS API)
+    const isHlsStream = src.endsWith('.m3u8') || src.includes('/api/hls/')
+
+    if (isHlsStream) {
+      if (Hls.isSupported()) {
+        // Use hls.js for browsers that don't natively support HLS
+        const hls = new Hls({
+          enableWorker: true,
+          lowLatencyMode: false,
+          backBufferLength: 90,
+          maxBufferLength: 10,        // 最大缓冲 10 秒
+          maxMaxBufferLength: 20,     // 最大最大缓冲 20 秒
+          maxBufferSize: 10 * 1000,   // 最大缓冲大小 10 KB
+          maxBufferHole: 0.5,         // 最大缓冲间隙 0.5 秒
+        })
+
+        hls.loadSource(src)
+        hls.attachMedia(video)
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          console.log('HLS manifest loaded')
+        })
+
+        hls.on(Hls.Events.ERROR, (_event, data) => {
+          console.error('HLS error:', {
+            type: data.type,
+            details: data.details,
+            fatal: data.fatal,
+            error: data.error?.message,
+          })
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                console.log('Network error, trying to recover...')
+                hls.startLoad()
+                break
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log('Media error, trying to recover...')
+                hls.recoverMediaError()
+                break
+              default:
+                console.log('Fatal error, destroying HLS instance')
+                hls.destroy()
+                break
+            }
+          }
+        })
+
+        hlsRef.current = hls
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        // Native HLS support (Safari)
+        video.src = src
+      }
+    } else {
+      // Regular video file
+      video.src = src
+    }
+
     const updateTime = () => setCurrentTime(video.currentTime)
     const updateDuration = () => setDuration(video.duration)
 
@@ -31,8 +91,11 @@ export default function VideoPlayer({ src, poster }: VideoPlayerProps) {
     return () => {
       video.removeEventListener('timeupdate', updateTime)
       video.removeEventListener('loadedmetadata', updateDuration)
+      if (hlsRef.current) {
+        hlsRef.current.destroy()
+      }
     }
-  }, [])
+  }, [src])
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -90,10 +153,11 @@ export default function VideoPlayer({ src, poster }: VideoPlayerProps) {
     >
       <video
         ref={videoRef}
-        src={src}
         poster={poster}
         className="w-full h-full"
         onClick={togglePlay}
+        preload="metadata"
+        playsInline
       />
 
       <div

@@ -93,7 +93,10 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-8">
-          <VideoPlayer src={video.video_key} poster={video.thumbnail_url} />
+          <VideoPlayer
+            src={`/api/hls/${id}/playlist.m3u8`}
+            poster={video.thumbnail_url}
+          />
         </div>
 
         <div className="bg-[#0F131C] rounded-2xl p-8">
