@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "VedioHome - Modern Video Streaming Platform",
-  description: "A modern video streaming platform built with Next.js, Supabase, and Cloudflare R2",
+  description: "A modern video streaming platform built with Next.js and Supabase",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

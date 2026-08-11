@@ -1,5 +1,4 @@
-import { getSupabaseClient, type Video } from '@/lib/supabase'
-import { getVideoUrl } from '@/lib/r2'
+import { getSupabaseClient } from '@/lib/supabase'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -20,14 +19,7 @@ export async function GET() {
       return NextResponse.json([], { status: 200 })
     }
 
-    const videosWithUrls = await Promise.all(
-      (videos as Video[]).map(async (video) => ({
-        ...video,
-        video_url: await getVideoUrl(video.video_key),
-      }))
-    )
-
-    return NextResponse.json(videosWithUrls)
+    return NextResponse.json(videos)
   } catch (error) {
     console.error('Failed to fetch videos:', error)
     return NextResponse.json([], { status: 200 })

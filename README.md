@@ -1,6 +1,6 @@
 # VedioHome
 
-A modern video streaming platform built with Next.js, Supabase, and Cloudflare R2.
+A modern video streaming platform built with Next.js and Supabase.
 
 ## Features
 
@@ -9,14 +9,12 @@ A modern video streaming platform built with Next.js, Supabase, and Cloudflare R
 - 🎨 Modern dark theme UI
 - 📱 Fully responsive design
 - ⚡ Fast and optimized with Next.js 15
-- 🔒 Secure video storage with Cloudflare R2
 - 💾 Database powered by Supabase
 
 ## Tech Stack
 
 - **Framework**: Next.js 15 with App Router
 - **Database**: Supabase (PostgreSQL)
-- **Storage**: Cloudflare R2
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
 - **Language**: TypeScript
@@ -27,7 +25,6 @@ A modern video streaming platform built with Next.js, Supabase, and Cloudflare R
 
 - Node.js 18+ installed
 - Supabase account and project
-- Cloudflare account with R2 enabled
 
 ### Installation
 
@@ -44,13 +41,6 @@ Create a `.env.local` file in the root directory:
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# Cloudflare R2
-R2_ACCOUNT_ID=your_account_id
-R2_ACCESS_KEY_ID=your_access_key_id
-R2_SECRET_ACCESS_KEY=your_secret_access_key
-R2_BUCKET_NAME=your_bucket_name
-R2_PUBLIC_URL=your_r2_public_url
 ```
 
 3. Set up Supabase database:
@@ -61,13 +51,7 @@ Run the SQL schema in your Supabase project (found in `supabase/schema.sql`):
 - Copy and paste the contents of `supabase/schema.sql`
 - Run the query
 
-4. Configure Cloudflare R2:
-
-- Create an R2 bucket in your Cloudflare dashboard
-- Generate API tokens with read/write permissions
-- (Optional) Set up a custom domain for public access
-
-5. Run the development server:
+4. Run the development server:
 ```bash
 npm run dev
 ```
@@ -90,8 +74,7 @@ vediohome/
 │   ├── VideoCard.tsx             # Video thumbnail card
 │   └── VideoPlayer.tsx           # Custom video player
 ├── lib/
-│   ├── supabase.ts               # Supabase client
-│   └── r2.ts                     # R2 storage client
+│   └── supabase.ts               # Supabase client
 └── supabase/
     └── schema.sql                # Database schema
 ```
@@ -99,7 +82,7 @@ vediohome/
 ## API Routes
 
 ### GET /api/videos
-Returns all videos with signed URLs
+Returns all videos
 
 ### GET /api/videos/[id]
 Returns a single video by ID and increments view count
@@ -119,29 +102,20 @@ Returns a single video by ID and increments view count
 |----------|-------------|
 | `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key |
-| `R2_ACCOUNT_ID` | Cloudflare account ID |
-| `R2_ACCESS_KEY_ID` | R2 access key ID |
-| `R2_SECRET_ACCESS_KEY` | R2 secret access key |
-| `R2_BUCKET_NAME` | R2 bucket name |
-| `R2_PUBLIC_URL` | (Optional) R2 public domain URL |
 
-## Uploading Videos
+## Adding Videos
 
-Videos are stored in Cloudflare R2. To upload videos:
-
-1. Use the Cloudflare dashboard or R2 API
-2. Store the video key in Supabase `videos` table
-3. Use a thumbnail URL (can be from any CDN or R2)
+Videos can be added directly to the Supabase database. For now, use external video URLs (e.g., test videos, CDN URLs).
 
 Example video record:
 ```sql
-INSERT INTO videos (title, description, thumbnail_url, video_key, duration)
+INSERT INTO videos (title, description, thumbnail_url, video_url, duration)
 VALUES (
   'My Video Title',
   'Video description',
-  'https://example.com/thumbnail.jpg',
-  'videos/my-video.mp4',
-  300
+  'https://images.unsplash.com/photo-1234567890',
+  'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4',
+  10
 );
 ```
 

@@ -1,9 +1,8 @@
 import { getSupabaseClient } from '@/lib/supabase'
-import { getVideoUrl } from '@/lib/r2'
 import { NextResponse } from 'next/server'
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -30,12 +29,7 @@ export async function GET(
         if (error) console.error('Failed to update views:', error.message)
       })
 
-    const videoWithUrl = {
-      ...video,
-      video_url: await getVideoUrl(video.video_key),
-    }
-
-    return NextResponse.json(videoWithUrl)
+    return NextResponse.json(video)
   } catch (error) {
     console.error('Failed to fetch video:', error)
     return NextResponse.json(

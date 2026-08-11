@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npx tsx *)",
+      "Bash(curl -s http://localhost:3000/api/videos)",
+      "Bash(curl -s http://localhost:3000/api/videos/a08475f5-6f7a-411a-8c4c-907c262c7df9)"
     ]
   }
 }

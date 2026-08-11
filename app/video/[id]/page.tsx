@@ -10,7 +10,7 @@ type Video = {
   title: string
   description: string
   thumbnail_url: string
-  video_url: string
+  video_key: string
   duration: number
   views: number
   created_at: string
@@ -93,7 +93,7 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-8">
-          <VideoPlayer src={video.video_url} poster={video.thumbnail_url} />
+          <VideoPlayer src={video.video_key} poster={video.thumbnail_url} />
         </div>
 
         <div className="bg-[#0F131C] rounded-2xl p-8">

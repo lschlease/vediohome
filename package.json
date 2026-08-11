@@ -2,7 +2,7 @@
   "name": "vediohome",
   "version": "0.1.0",
   "private": true,
-  "description": "Modern video streaming platform built with Next.js, Supabase, and Cloudflare R2",
+  "description": "Modern video streaming platform built with Next.js and Supabase",
   "author": "Your Name",
   "license": "MIT",
   "scripts": {
@@ -16,8 +16,6 @@
     "verify": "tsx scripts/verify-supabase.ts"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1107.0",
-    "@aws-sdk/s3-request-presigner": "^3.1107.0",
     "@supabase/supabase-js": "^2.112.3",
     "lucide-react": "^1.31.0",
     "next": "16.3.0",
